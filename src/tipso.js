@@ -5,7 +5,13 @@
  * Licensed under the MIT license
  * http://object505.mit-license.org/
  */
-;(function($, window, document, undefined) {
+(function (root, factory) {
+  if(typeof module === "object" && module.exports) {
+    module.exports = factory(require("jquery"), window, document);
+  } else {
+    root.myModule = factory(root.postal);
+  }
+}(this, function($, window, document, undefined) {
   var pluginName = "tipso",
     defaults = {
       speed           : 400,
@@ -34,8 +40,8 @@
     this._title = this.element.attr('title');
     this.mode = 'hide';
     this.ieFade = false;
-    if ( !supportsTransitions ) {        
-      this.ieFade = true;      
+    if ( !supportsTransitions ) {
+      this.ieFade = true;
     }
     this.init();
   }
@@ -134,8 +140,8 @@
         .removeClass('animated ' + obj.settings.animationIn)
         .addClass('noAnimation').removeClass('noAnimation')
         .addClass('animated ' + obj.settings.animationOut)
-        .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){          
-          $(this).removeClass('animated ' + obj.settings.animationOut).remove();          
+        .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+          $(this).removeClass('animated ' + obj.settings.animationOut).remove();
           if ($.isFunction(obj.settings.onHide) && obj.mode == 'show') {
             obj.settings.onHide($(this));
           }
@@ -201,10 +207,10 @@
   }
 
   var supportsTransitions = (function() {
-    var s = document.createElement('p').style, 
+    var s = document.createElement('p').style,
         v = ['ms','O','Moz','Webkit'];
-    if( s['transition'] == '' ) return true; 
-    while( v.length ) 
+    if( s['transition'] == '' ) return true;
+    while( v.length )
         if( v.pop() + 'Transition' in s )
             return true;
     return false;
@@ -471,4 +477,4 @@
       return returns !== undefined ? returns : this;
     }
   };
-})(jQuery, window, document);
+}));
